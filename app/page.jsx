@@ -4,6 +4,7 @@ import axios from "axios"
 import { Tooltip } from "flowbite-react";
 import { useEffect, useState } from "react";
 import PageNumber from "./components/PageNumber";
+import SearchList from "./components/SearchList";
 
 export default function Home() {
   const [productName, setproductName] = useState('');
@@ -15,6 +16,7 @@ export default function Home() {
   const [searchResults, setSearchResults] = useState([]);
   const [searchBtn, setsearchBtn] = useState(false)
   const [productValue, setProductValue] = useState('');
+  const [searchBtnClicked, setsearchBtnClicked] = useState(false)
 
   const handleSearch = async (e) => {
     const value = e.target.value;
@@ -128,7 +130,7 @@ export default function Home() {
       <tbody>
         <tr>
           <td colSpan="2" className="p-2 text-center">
-             Please enter search keywords to find desired products
+            Please enter search keywords to find desired products
           </td>
         </tr>
       </tbody>
@@ -141,7 +143,6 @@ export default function Home() {
       <div>Hiiiiiiiiiiiiiiiiiiiiiiiiii</div>
     )
   }
-
 
   useEffect(() => {
     if (message) {
@@ -204,9 +205,13 @@ export default function Home() {
               onChange={handleSearch}
               value={searchValue}
             />
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" className="mx-4" onClick={() => {
-              setsearchBtn(true);
-            }}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" className="mx-4 cursor-pointer" onClick={() => {
+              // if(searchBtnClicked) {setsearchBtnClicked(false);}
+              // else {setsearchBtnClicked(true);}
+              // console.log(searchBtnClicked);
+              setsearchBtnClicked(true);
+            }
+            }
               width="32px" height="32px">
               <path d="M 21 3 C 11.654545 3 4 10.654545 4 20 C 4 29.345455 11.654545 37 21 37 C 24.701287 37 28.127393 35.786719 30.927734 33.755859 L 44.085938 46.914062 L 46.914062 44.085938 L 33.875 31.046875 C 36.43682 28.068316 38 24.210207 38 20 C 38 10.654545 30.345455 3 21 3 z M 21 5 C 29.254545 5 36 11.745455 36 20 C 36 28.254545 29.254545 35 21 35 C 12.745455 35 6 28.254545 6 20 C 6 11.745455 12.745455 5 21 5 z" />
             </svg>
@@ -241,71 +246,18 @@ export default function Home() {
                   <th className="p-2 border-b"></th>
                 </tr>
               </thead>
-              {(!searchBtn) ? (
-              //  (list.length > 0) && <PageNumber list={list}/>   
-              <PageNumber list={list}/>
-                // <tbody>
-                //   {list.length > 0 ? (
-                //     list.map((product, index) => (
-                //       <tr
-                //         className={`${index & 1 ? "bg-gray-100" : "bg-white"
-                //           } table-row`}
-                //         key={product.name}
-                //       >
-                //         <td className="p-2 border-b">
-                //           <input
-                //             className={`${index & 1 ? "bg-gray-100" : "bg-white"
-                //               } border-none input-field`}
-                //             type="text"
-                //             disabled
-                //             value={product.name}
-                //           />
-                //         </td>
-                //         <td className="p-2 border-b">
-                //           <input
-                //             className={`${index & 1 ? "bg-gray-100" : "bg-white"
-                //               } border-none input-field`}
-                //             type="number"
-                //             disabled
-                //             value={product.quantity}
-                //           />
-                //         </td>
-                //         <td className="p-2 border-b">
-                //           <Tooltip content={`Edit ${product.name} details`}>
-                //             <svg
-                //               onClick={() => {
-                //                 console.log(`Editing ${product.name} details`);
-                //                 handleEdit(product.name, product.quantity);
-                //               }}
-                //               xmlns="http://www.w3.org/2000/svg"
-                //               viewBox="0 0 32 32"
-                //               width="32px"
-                //               height="32px"
-                //               data-tooltip-target="tooltip-dark"
-                //               className="cursor-pointer ml-4 hover:bg-gray-200"
-                //             >
-                //               <path d="M 23.90625 3.96875 C 22.859375 3.96875 21.8125 4.375 21 5.1875 L 5.1875 21 L 5.125 21.3125 L 4.03125 26.8125 L 3.71875 28.28125 L 5.1875 27.96875 L 10.6875 26.875 L 11 26.8125 L 26.8125 11 C 28.4375 9.375 28.4375 6.8125 26.8125 5.1875 C 26 4.375 24.953125 3.96875 23.90625 3.96875 Z M 23.90625 5.875 C 24.410156 5.875 24.917969 6.105469 25.40625 6.59375 C 26.378906 7.566406 26.378906 8.621094 25.40625 9.59375 L 24.6875 10.28125 L 21.71875 7.3125 L 22.40625 6.59375 C 22.894531 6.105469 23.402344 5.875 23.90625 5.875 Z M 20.3125 8.71875 L 23.28125 11.6875 L 11.1875 23.78125 C 10.53125 22.5 9.5 21.46875 8.21875 20.8125 Z M 6.9375 22.4375 C 8.136719 22.921875 9.078125 23.863281 9.5625 25.0625 L 6.28125 25.71875 Z" />
-                //             </svg>
-                //           </Tooltip>
-                //         </td>
-                //       </tr>
-                //     ))
-                //   ) : (
-                //     <tr>
-                //       <td colSpan="2" className="p-2 text-center">
-                //         No products found.
-                //       </td>
-                //     </tr>
-                //   )}
-                // </tbody>
+              {searchBtnClicked && !searchBtn ? (
+                <SearchList resultList={searchResults} />
               ) : (
-                <HandleSearchProduct />
-              )
-
-              }
+                  !searchBtn ? (
+                    <PageNumber list={list} />
+                  ) : (
+                    <HandleSearchProduct />
+                  )
+              )}
             </table>
           </div>
-          
+
         </div>
       </div>
     </>
